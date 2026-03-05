@@ -1,34 +1,21 @@
+import { useRouter } from "next/router";
 import Navbar from "../navbar";
+
+const disableNavbar = ['/auth/login', '/auth/register'];
 
 type AppShellProps = {
   children: React.ReactNode;
-};
+}
 
-const AppShell = (props: AppShellProps) => {
+const AppShell = (props:AppShellProps) => {
   const { children } = props;
-
+  const {pathname} = useRouter();
   return (
     <main>
-      <Navbar />
-
-      <div style={{ padding: "20px" }}>
-        {children}
-      </div>
-
-      <footer
-        style={{
-          height: "60px",
-          backgroundColor: "#222",
-          color: "white",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginTop: "20px",
-        }}
-      >
-        © 2026 Fiera Ziadattun Nisa' | D4 Teknik Informatika
-      </footer>
+      {!disableNavbar.includes(pathname) && <Navbar />}
+      {children}
     </main>
+
   );
 };
 

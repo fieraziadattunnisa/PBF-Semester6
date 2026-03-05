@@ -1,31 +1,22 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+// import styles from './login.module.css';
+import styles from './login.module.scss';
 
-const Login = () => {
-  const router = useRouter();
-
-  // simulasi kondisi sudah login
-  const isLogin = false;
-
-  useEffect(() => {
-    if (isLogin) {
-      router.push("/produk");
-    }
-  }, [isLogin, router]);
-
+const TampilanLogin = () => {
+  const {push} = useRouter();
+  const handleLogin = () => {
+    // logic login disini
+    push('/produk');
+  }
   return (
-    <div>
-      <h1>Halaman Login</h1>
-
-      <p>Anda akan diarahkan ke halaman produk...</p>
-
-      <p>
-        Belum punya akun?{" "}
-        <Link href="/auth/register">Register</Link>
-      </p>
+    <div className={styles.login}>
+      <h1 className="text-3xl font-bold text-blue-600 ">Halaman Login</h1>
+      <button onClick={() => handleLogin()}>Login</button> <br />
+      <h1 style={{color: "red", border: "1px solid red", borderRadius: "5px", padding: "5px"}}> belum punya akun</h1>
+      <Link href={"/auth/register"}>Ke Halaman Register</Link>
     </div>
   );
 };
 
-export default Login;
+export default TampilanLogin;
