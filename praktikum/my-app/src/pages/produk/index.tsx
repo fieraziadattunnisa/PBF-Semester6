@@ -1,18 +1,17 @@
-import Link from 'next/link';
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
-export default function ProdukPage() {
-  return (
-    <div>
-      <h1>Halaman Produk</h1>
+const produk = () => {
+    const [isLogin, setIsLogin] = useState(false);
+    const { push } = useRouter();
+    useEffect(() => {
+      if (!isLogin) {
+        push("/auth/login");
+      }
+    }, []);
+    return (
+        <div>Produk User Page</div>
+    );
+};
 
-      <ul>
-        <li>
-          <Link href="/produk/sepatu">Produk Sepatu</Link>
-        </li>
-        <li>
-          <Link href="/produk/baju">Produk Baju</Link>
-        </li>
-      </ul>
-    </div>
-  );
-}
+export default produk;
