@@ -1,24 +1,46 @@
-import styles from "../../styles/produk.module.scss";
+import styles from "./produk.module.scss";
 
-const ProdukPage = () => {
+type ProductType = {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  category: string;
+};
+
+const TampilanProduk = ({ products = [] }: { products: ProductType[] }) => {
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Halaman Produk</h1>
+    <div className={styles.produk}>
+      <h1 className={styles.produk__title}>Daftar Produk</h1>
 
-      <div className={styles.card}>
-        <p>Produk 1</p>
+      <div className={styles.produk__content}>
+        {products.length > 0 ? (
+          // ✅ DATA ASLI
+          products.map((product) => (
+            <div key={product.id} className={styles.produk__content__item}>
+              <div className={styles.produk__content__item__image}>
+                <img src={product.image} alt={product.name} width={200} />
+              </div>
+              <h4>{product.name}</h4>
+              <p>{product.category}</p>
+              <p>Rp {product.price.toLocaleString()}</p>
+            </div>
+          ))
+        ) : (
+          // ✅ SKELETON
+          Array(4)
+            .fill(0)
+            .map((_, index) => (
+              <div key={index} className={styles.produk__content__item}>
+                <div className={styles.skeleton}></div>
+                <div className={styles.skeleton_text}></div>
+                <div className={styles.skeleton_text}></div>
+              </div>
+            ))
+        )}
       </div>
-
-      <div className={styles.card}>
-        <p>Produk 2</p>
-      </div>
-
-      <div className={styles.card}>
-        <p>Produk 3</p>
-      </div>
-
     </div>
   );
 };
 
-export default ProdukPage;
+export default TampilanProduk;

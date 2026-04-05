@@ -1,22 +1,15 @@
-import styles from "../../styles/produk.module.scss";
+import useSWR from "swr";
+import TampilanProduk from "../../views/produk";
+import fetcher from "../utils/swr/fetcher";
 
 const ProdukPage = () => {
+  const { data, error, isLoading } = useSWR("/api/produk", fetcher);
+
+  if (error) return <div>Error loading data</div>;
+
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Halaman Produk</h1>
-
-      <div className={styles.card}>
-        <p>Produk 1</p>
-      </div>
-
-      <div className={styles.card}>
-        <p>Produk 2</p>
-      </div>
-
-      <div className={styles.card}>
-        <p>Produk 3</p>
-      </div>
-
+    <div>
+      <TampilanProduk products={isLoading ? [] : data} />
     </div>
   );
 };
