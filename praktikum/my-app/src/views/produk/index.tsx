@@ -1,7 +1,7 @@
 import styles from "./produk.module.scss";
 
 type ProductType = {
-  id: string;
+  id: number;
   name: string;
   price: number;
   image: string;
@@ -23,7 +23,7 @@ const TampilanProduk = ({ products = [] }: { products: ProductType[] }) => {
               </div>
               <h4>{product.name}</h4>
               <p>{product.category}</p>
-              <p>Rp {product.price.toLocaleString()}</p>
+              <p>Rp {product.price.toLocaleString("id-ID")}</p>
             </div>
           ))
         ) : (
