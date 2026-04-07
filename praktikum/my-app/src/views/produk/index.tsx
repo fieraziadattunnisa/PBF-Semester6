@@ -1,10 +1,10 @@
 import styles from "./produk.module.scss";
 
 type ProductType = {
-  id: number;
+  id: number | string;
   name: string;
   price: number;
-  image: string;
+  image?: string;
   category: string;
 };
 
@@ -15,19 +15,27 @@ const TampilanProduk = ({ products = [] }: { products: ProductType[] }) => {
 
       <div className={styles.produk__content}>
         {products.length > 0 ? (
-          // ✅ DATA ASLI
           products.map((product) => (
             <div key={product.id} className={styles.produk__content__item}>
+              
               <div className={styles.produk__content__item__image}>
-                <img src={product.image} alt={product.name} width={200} />
+                <img
+                  src={product.image || "https://via.placeholder.com/200"}
+                  alt={product.name}
+                  width={200}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src =
+                      "https://via.placeholder.com/200";
+                  }}
+                />
               </div>
+
               <h4>{product.name}</h4>
               <p>{product.category}</p>
               <p>Rp {product.price.toLocaleString("id-ID")}</p>
             </div>
           ))
         ) : (
-          // ✅ SKELETON
           Array(4)
             .fill(0)
             .map((_, index) => (
