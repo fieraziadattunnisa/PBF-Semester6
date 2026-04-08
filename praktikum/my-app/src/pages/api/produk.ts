@@ -1,28 +1,25 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { retrieveProducts } from "../../../utils/db/servicefirebase";
+import { retrieveProducts } from "../../utils/db/servicefirebase";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    const { id } = req.query;
     const products = await retrieveProducts("products");
-
-    const detailProduct = products.find((item: any) => item.id === id);
 
     return res.status(200).json({
       status: true,
       status_code: 200,
-      data: detailProduct,
+      data: products,
     });
   } catch (error) {
-    console.error("API DETAIL ERROR:", error);
+    console.error("API ERROR:", error);
 
     return res.status(500).json({
       status: false,
       status_code: 500,
-      message: "Gagal mengambil detail produk",
+      message: "Gagal mengambil data produk",
       error: String(error),
     });
   }

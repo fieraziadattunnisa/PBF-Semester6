@@ -1,32 +1,42 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import DetailProductView from "@/views/DetailProduct";
 
-const DetailProduk = () => {
+type ProductType = {
+  id: number;
+  name: string;
+  category: string;
+  image: string;
+  price: number;
+  size?: string;
+};
+
+const DetailProdukPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const [produk, setProduk] = useState<any>(null);
+  const [product, setProduct] = useState<ProductType | null>(null);
 
   useEffect(() => {
     if (id) {
+      console.log("ID DARI URL:", id);
+
       fetch(`/api/produk/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setProduk(data.data);
+        .then((res) => res.text()) // sementara pakai text dulu untuk debug
+        .then((text) => {
+          console.log("HASIL FETCH:", text);
+
+          const data = JSON.parse(text);
+          setProduct(data.data);
         });
     }
   }, [id]);
 
+  if (!product) {
+    return <h2>Loading...</h2>;
+  }
 
-  return (
-    <div>
-      <h1>Detail Produk</h1>
-      <h2>{produk.name}</h2>
-      <p>Kategori: {produk.category}</p>
-      <p>Harga: {produk.price}</p>
-      <p>Ukuran: {produk.size}</p>
-    </div>
-  );
+  return <DetailProductView products={product} />;
 };
 
-export default DetailProduk;
+export default DetailProdukPage;
