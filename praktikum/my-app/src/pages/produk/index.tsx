@@ -1,15 +1,23 @@
-import useSWR from "swr";
+import { useRouter } from "next/router";
 import TampilanProduk from "../../views/produk";
+import useSWR from "swr";
 import fetcher from "../../utils/swr/fetcher";
 
 const ProdukPage = () => {
+  const { push } = useRouter();
+
   const { data, error, isLoading } = useSWR("/api/produk", fetcher);
 
-  if (error) return <div>Error loading data</div>;
+  // Debug (opsional)
+  console.log("DATA:", data);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error mengambil data</p>;
 
   return (
     <div>
-      <TampilanProduk products={isLoading ? [] : data} />
+      {/* ⚠️ PENTING: data sudah berupa array */}
+      <TampilanProduk products={data || []} />
     </div>
   );
 };
